@@ -26,7 +26,7 @@ useFormValidation: <T extends object>(
 
 // Tool for selects
 
-export function useFormSelect<T extends object>(
+useFormSelect<T extends object>(
   objects: T[],
   format: (object: T) => FormSelectItem,
   defaultItem?: T
