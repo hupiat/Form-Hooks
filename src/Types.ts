@@ -22,3 +22,21 @@ export interface FormValidation<T extends object> {
   canValidate: boolean;
   errors: FormValidationError<T>[];
 }
+
+export type FormSelectItemCommon = {
+  label: string;
+  value: string;
+};
+
+export type FormSelectItemSemanticUI = {
+  key: string;
+  value: string;
+  text: string;
+};
+
+export type FormSelectItem = FormSelectItemCommon | FormSelectItemSemanticUI;
+
+export interface FormSelect<T> {
+  suggestions: FormSelectItem[];
+  findSelectItem: (suggestion: FormSelectItem) => T | undefined;
+}
