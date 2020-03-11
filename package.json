@@ -1,6 +1,6 @@
 {
   "name": "form-hooks-light",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Lightweight hooks to deal with React forms",
   "repository": {
     "type": "git",
