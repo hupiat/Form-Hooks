@@ -32,6 +32,8 @@ useFormSelect<T extends object>(
   defaultItem?: T
 ): {
   suggestions: FormSelectItem[];
-  findSelectItem: (suggestion: FormSelectItem) => T | undefined;
+  selected: FormSelectItem | undefined;
+  onSelect: (object?: T) => void;
+  onClear: () => void;
 };
 ```

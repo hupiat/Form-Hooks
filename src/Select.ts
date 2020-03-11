@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { FormSelect, FormSelectItem } from "./Types";
 import _ from "lodash";
 
@@ -7,15 +7,20 @@ export function useFormSelect<T extends object>(
   format: (object: T) => FormSelectItem,
   defaultItem?: T
 ): FormSelect<T> {
+  const [selected, setSelected] = useState<T | undefined>(defaultItem);
+
   const suggestions = useMemo<FormSelectItem[]>(() => {
     return objects.map(format);
   }, [objects]);
 
-  const findSelectItem = (suggestion: FormSelectItem) =>
-    objects.find(obj => _.isEqual(format(obj), suggestion)) || defaultItem;
+  const onSelect = (object?: T) => setSelected(object);
+
+  const onClear = () => setSelected(undefined);
 
   return {
     suggestions,
-    findSelectItem
+    onSelect,
+    onClear,
+    selected: selected && format(selected)
   };
 }
