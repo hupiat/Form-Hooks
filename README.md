@@ -16,6 +16,8 @@ useFormState: <T extends object>(
 // Validation schema are made using a mix of Yup (https://github.com/jquense/yup) 
 // and boolean functions like (object: T) => boolean
 
+// Validation will be triggered only when the object is updated
+
 useFormValidation: <T extends object>(
 	schema: FormValidationSchema<T>,
 	object: T
