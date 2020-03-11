@@ -34,7 +34,7 @@ export type FormSelectItemSemanticUI = {
   text: string;
 };
 
-export type FormSelectItem = FormSelectItemCommon | FormSelectItemSemanticUI;
+export type FormSelectItem = FormSelectItemCommon & FormSelectItemSemanticUI;
 
 export interface FormSelect<T> {
   suggestions: FormSelectItem[];
