@@ -25,6 +25,8 @@ useFormValidation: <T extends object>(
 };
 
 // Tool for selects
+// FormSelectItem supports common format ({ value, label }) and 
+// specific SemanticUI format ({ key, value, text })
 
 useFormSelect<T extends object>(
   objects: T[],
