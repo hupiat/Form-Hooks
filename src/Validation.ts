@@ -9,6 +9,9 @@ import {
 } from "./Types";
 import _ from "lodash";
 
+const CALLBACK_VALIDATION_FAILED = (label: string) =>
+  `Validation function for ${label} failed`;
+
 export function useFormValidation<T extends object>(
   schema: FormValidationSchema<T>,
   object: T
@@ -46,7 +49,7 @@ export function useFormValidation<T extends object>(
       .map(key => key as keyof T)
       .forEach(key => {
         if (!callbacksSchema.current[key](object)) {
-          pushError(key, `Validation function for ${key} failed`);
+          pushError(key, CALLBACK_VALIDATION_FAILED(key as string));
         }
       });
     if (yupSchema.current) {
@@ -60,7 +63,7 @@ export function useFormValidation<T extends object>(
 
     setErrors(errors);
     setCanValidate(errors.length <= 0);
-  }, [object, schema]);
+  }, [object]);
 
   return {
     canValidate,
