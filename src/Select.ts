@@ -17,7 +17,7 @@ export function useFormSelect<T extends object>(
 
   const onSelect = (object?: T) => setObjectSelected(object);
 
-  const onClear = () => setObjectSelected(undefined);
+  const onClear = () => setObjectSelected(defaultItem);
 
   return {
     suggestions,
