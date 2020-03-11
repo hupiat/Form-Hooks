@@ -1,6 +1,6 @@
 {
 	"name": "form-hooks-light",
-	"version": "1.0.2",
+	"version": "1.0.4",
 	"description": "Lightweight hooks to deal with React forms",
 	"main": "index.js",
 	"scripts": {
