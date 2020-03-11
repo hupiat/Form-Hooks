@@ -7,20 +7,23 @@ export function useFormSelect<T extends object>(
   format: (object: T) => FormSelectItem,
   defaultItem?: T
 ): FormSelect<T> {
-  const [selected, setSelected] = useState<T | undefined>(defaultItem);
+  const [objectSelected, setObjectSelected] = useState<T | undefined>(
+    defaultItem
+  );
 
   const suggestions = useMemo<FormSelectItem[]>(() => {
     return objects.map(format);
   }, [objects]);
 
-  const onSelect = (object?: T) => setSelected(object);
+  const onSelect = (object?: T) => setObjectSelected(object);
 
-  const onClear = () => setSelected(undefined);
+  const onClear = () => setObjectSelected(undefined);
 
   return {
     suggestions,
     onSelect,
     onClear,
-    selected: selected && format(selected)
+    objectSelected,
+    itemSelected: objectSelected && format(objectSelected)
   };
 }

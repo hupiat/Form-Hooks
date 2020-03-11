@@ -38,7 +38,8 @@ export type FormSelectItem = FormSelectItemCommon & FormSelectItemSemanticUI;
 
 export interface FormSelect<T> {
   suggestions: FormSelectItem[];
-  selected: FormSelectItem | undefined;
   onSelect: (object?: T) => void;
   onClear: () => void;
+  itemSelected: FormSelectItem | undefined;
+  objectSelected: T | undefined;
 }

@@ -26,7 +26,7 @@ useFormValidation: <T extends object>(
 
 // Tool for selects
 
-// FormSelectItem supports common format ({ value, label }) and 
+// FormSelectItem supports common format ({ value, label }) and
 // specific SemanticUI format ({ key, value, text })
 
 useFormSelect<T extends object>(
@@ -35,8 +35,9 @@ useFormSelect<T extends object>(
   defaultItem?: T
 ): {
   suggestions: FormSelectItem[];
-  selected: FormSelectItem | undefined;
   onSelect: (object?: T) => void;
   onClear: () => void;
+  itemSelected: FormSelectItem | undefined;
+  objectSelected: T | undefined;
 };
 ```
