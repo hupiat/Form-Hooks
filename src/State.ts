@@ -11,10 +11,14 @@ export function useFormState<T extends object>(
 				`Type mismatch ${typeof formState[key]} != ${typeof attribute}`
 			);
 		}
-		setFormState({
-			...formState,
-			[key]: attribute
-		});
+		setFormState(
+			Object.assign(
+				{
+					[key]: attribute
+				},
+				formState
+			)
+		);
 	};
 
 	return [formState, handleUpdate];

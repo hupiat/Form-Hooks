@@ -1,12 +1,12 @@
+import { useEffect, useState, useRef } from "react";
 import * as Yup from "yup";
 import {
 	FormValidationSchema,
-	CallbacksSchema,
-	YupSchema,
 	FormValidation,
-	FormValidationError
+	FormValidationError,
+	CallbacksSchema,
+	YupSchema
 } from "./Types";
-import { useEffect, useRef, useState } from "react";
 import _ from "lodash";
 
 export function useFormValidation<T extends object>(
@@ -23,7 +23,7 @@ export function useFormValidation<T extends object>(
 		const tempSchema = _.cloneDeep(schema);
 		Object.keys(schema)
 			.map(key => key as keyof T)
-			.filter(key => schema[key] instanceof Function)
+			.filter(key => (schema[key] as any) instanceof Function)
 			.forEach(key => {
 				callbacksSchema.current[key] = schema[key] as (object: T) => boolean;
 				delete tempSchema[key];
