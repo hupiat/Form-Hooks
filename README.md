@@ -14,7 +14,10 @@ useFormState: <T extends object>(object?: T) => [formState, setFormState];
 ```
 
 Validation schema are made using a mix of Yup (https://github.com/jquense/yup)
-and boolean functions like (object: T) => boolean
+and booleanc validation functions 
+```typescript
+(object: T) => boolean
+```
 
 Validation will be triggered only when the object is updated
 
