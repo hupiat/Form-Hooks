@@ -15,7 +15,7 @@ export function useFormSelect<T extends object>(
     return objects.map(format);
   }, [objects]);
 
-  const onSelect = (object?: T) => setObjectSelected(object);
+  const onSelect = (object: T) => setObjectSelected(object);
 
   const onClear = () => setObjectSelected(defaultItem);
 
