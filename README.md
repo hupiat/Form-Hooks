@@ -6,16 +6,19 @@ Lightweight hooks to deal with React forms
 
 # API
 
+Sets a state for an object, with a generic type-safe setter
+
+
 ```typescript
-// Sets a state for an object, with a generic type-safe setter
-
 useFormState: <T extends object>(object?: T) => [formState, setFormState];
+```
 
-// Validation schema are made using a mix of Yup (https://github.com/jquense/yup)
-// and boolean functions like (object: T) => boolean
+Validation schema are made using a mix of Yup (https://github.com/jquense/yup)
+and boolean functions like (object: T) => boolean
 
-// Validation will be triggered only when the object is updated
+Validation will be triggered only when the object is updated
 
+```typescript
 useFormValidation: <T extends object>(
   schema: FormValidationSchema<T>,
   object: T
@@ -23,9 +26,11 @@ useFormValidation: <T extends object>(
   canValidate: boolean;
   errors: FormValidationError < T > [];
 };
+```
 
-// Example
+<b>Example</b>
 
+```typescript
 interface Test {
   foo: string;
   foo2: number;
@@ -35,12 +40,14 @@ const schema: FormValidationSchema<Test> = {
   foo: (object: Test) => foo.length > 5,
   foo2: Yup.number.max(10)
 }
+```
 
-// Tool for selects
+Tool for selects
 
-// FormSelectItem supports common format ({ value, label }) and
-// specific SemanticUI format ({ key, value, text })
+FormSelectItem supports common format ({ value, label }) and
+specific SemanticUI format ({ key, value, text })
 
+```typescript
 useFormSelect<T extends object>(
   objects: T[],
   format: (object: T) => FormSelectItem,
@@ -52,10 +59,12 @@ useFormSelect<T extends object>(
   itemSelected: FormSelectItem | undefined;
   objectSelected: T | undefined;
 };
+```
 
-// Solution for many selects in a single component
+Solution for many selects in a single component
 
-export function FormSelectComponent<T extends object>(
+```typescript
+FormSelectComponent<T extends object>(
   id: string;
   componentsStore: FormSelectComponentStore<T>;
   render: (values: FormSelect<T>) => JSX.Element;
@@ -70,9 +79,11 @@ export function useFormSelectComponentsStore<
   get: (key: string) => FormSelect<T>;
   store: (key: string, values: FormSelect<T>) => void;
 }
+```
 
-// Example
+<b>Example</b>
 
+```jsx
 const App = () => {
   const componentsStore = useFormSelectComponentsStore();
   const { objectSelected, onSelect, onClear } = componentsStore.get("id");
