@@ -1,5 +1,10 @@
-import { useMemo, useState } from "react";
-import { FormSelect, FormSelectItem } from "./Types";
+import { useMemo, useState, useEffect } from "react";
+import {
+  FormSelect,
+  FormSelectItem,
+  FormSelectComponentProps,
+  FormSelectComponentStore
+} from "./Types";
 import _ from "lodash";
 
 export function useFormSelect<T extends object>(
@@ -13,7 +18,7 @@ export function useFormSelect<T extends object>(
 
   const suggestions = useMemo<FormSelectItem[]>(() => {
     return objects.map(format);
-  }, [objects]);
+  }, [objects, format]);
 
   const onSelect = (object: T) => setObjectSelected(object);
 
@@ -26,4 +31,49 @@ export function useFormSelect<T extends object>(
     objectSelected,
     itemSelected: objectSelected && format(objectSelected)
   };
+}
+
+// More convenient for many selects in a single component
+
+// We use a FormSelectComponent to wrap the useFormSelect
+// and we store the values in a ref to get them using a key
+
+type FormSelectComponentStored<T extends object> = {
+  [key: string]: FormSelect<T>;
+};
+
+export function useFormSelectComponentsStore<
+  T extends object
+>(): FormSelectComponentStore<T> {
+  const [store, setStore] = useState<FormSelectComponentStored<T>>({});
+
+  const doGet = (key: string) => store[key] || {};
+
+  const doStore = (key: string, values: FormSelect<T>) =>
+    setStore(store => {
+      store[key] = values;
+      return _.cloneDeep(store);
+    });
+
+  return {
+    get: doGet,
+    store: doStore
+  };
+}
+
+export function FormSelectComponent<T extends object>(
+  props: FormSelectComponentProps<T>
+): JSX.Element {
+  const values = useFormSelect<T>(
+    props.objects,
+    props.format,
+    props.defaultItem
+  );
+  useEffect(() => {
+    if (_.isEmpty(props.componentsStore.get(props.id))) {
+      props.componentsStore.store(props.id, values);
+    }
+  }, [props.componentsStore, props.id, values]);
+
+  return props.render(values);
 }

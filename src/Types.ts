@@ -34,12 +34,27 @@ export type FormSelectItemSemanticUI = {
   text: string;
 };
 
-export type FormSelectItem = FormSelectItemCommon & FormSelectItemSemanticUI;
+export type FormSelectItem = Partial<FormSelectItemCommon> &
+  Partial<FormSelectItemSemanticUI>;
 
-export interface FormSelect<T> {
+export type FormSelectComponentStore<T extends object> = {
+  get: (key: string) => FormSelect<T>;
+  store: (key: string, values: FormSelect<T>) => void;
+};
+
+export interface FormSelect<T extends object> {
   suggestions: FormSelectItem[];
   onSelect: (object: T) => void;
   onClear: () => void;
   itemSelected: FormSelectItem | undefined;
   objectSelected: T | undefined;
+}
+
+export interface FormSelectComponentProps<T extends object> {
+  id: string;
+  componentsStore: FormSelectComponentStore<T>;
+  render: (values: FormSelect<T>) => JSX.Element;
+  objects: T[];
+  format: (object: T) => FormSelectItem;
+  defaultItem?: T;
 }

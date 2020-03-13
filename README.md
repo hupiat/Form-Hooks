@@ -24,6 +24,18 @@ useFormValidation: <T extends object>(
   errors: FormValidationError < T > [];
 };
 
+// Example
+
+interface Test {
+  foo: string;
+  foo2: number;
+}
+
+const schema: FormValidationSchema<Test> = {
+  foo: (object: Test) => foo.length > 5,
+  foo2: Yup.number.max(10)
+}
+
 // Tool for selects
 
 // FormSelectItem supports common format ({ value, label }) and
@@ -39,5 +51,49 @@ useFormSelect<T extends object>(
   onClear: () => void;
   itemSelected: FormSelectItem | undefined;
   objectSelected: T | undefined;
+};
+
+// Solution for many selects in a single component
+
+export function FormSelectComponent<T extends object>(
+  id: string;
+  componentsStore: FormSelectComponentStore<T>;
+  render: (values: FormSelect<T>) => JSX.Element;
+  objects: T[];
+  format: (object: T) => FormSelectItem;
+  defaultItem?: T;
+): JSX.Element
+
+export function useFormSelectComponentsStore<
+  T extends object
+>(): {
+  get: (key: string) => FormSelect<T>;
+  store: (key: string, values: FormSelect<T>) => void;
+}
+
+// Example
+
+const App = () => {
+  const componentsStore = useFormSelectComponentsStore();
+  const { objectSelected, onSelect, onClear } = componentsStore.get("id");
+
+  return (
+    <div>
+      <FormSelectComponent
+        id="id"
+        objects={[
+          {
+            foo: "foo"
+          }
+        ]}
+        format={() => ({
+          value: "foo",
+          label: "foo"
+        })}
+        render={() => <>foo</>}
+        componentsStore={componentsStore}
+      />
+    </div>
+  );
 };
 ```
