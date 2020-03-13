@@ -52,9 +52,9 @@ export interface FormSelect<T extends object> {
 
 export interface FormSelectComponentProps<T extends object> {
   id: string;
-  componentsStore: FormSelectComponentStore<T>;
   render: (values: FormSelect<T>) => JSX.Element;
   objects: T[];
   format: (object: T) => FormSelectItem;
+  componentsStore?: FormSelectComponentStore<T>;
   defaultItem?: T;
 }

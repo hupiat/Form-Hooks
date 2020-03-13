@@ -45,15 +45,23 @@ type FormSelectComponentStored<T extends object> = {
 export function useFormSelectComponentsStore<
   T extends object
 >(): FormSelectComponentStore<T> {
+  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
   const [store, setStore] = useState<FormSelectComponentStored<T>>({});
 
-  const doGet = (key: string) => store[key] || {};
+  const doGet = (key: string) => {
+    if (!store[key] && !isFirstRender) {
+      throw Error(`No form select component found for key : ${key}`);
+    }
+    return store[key];
+  };
 
   const doStore = (key: string, values: FormSelect<T>) =>
     setStore(store => {
       store[key] = values;
       return _.cloneDeep(store);
     });
+
+  useEffect(() => setIsFirstRender(false), []);
 
   return {
     get: doGet,
@@ -70,7 +78,10 @@ export function FormSelectComponent<T extends object>(
     props.defaultItem
   );
   useEffect(() => {
-    if (_.isEmpty(props.componentsStore.get(props.id))) {
+    if (
+      props.componentsStore &&
+      _.isEmpty(props.componentsStore.get(props.id))
+    ) {
       props.componentsStore.store(props.id, values);
     }
   }, [props.componentsStore, props.id, values]);
