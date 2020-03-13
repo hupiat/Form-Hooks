@@ -38,8 +38,8 @@ export type FormSelectItem = Partial<FormSelectItemCommon> &
   Partial<FormSelectItemSemanticUI>;
 
 export type FormSelectComponentStore<T extends object> = {
-  get: (key: string) => FormSelect<T>;
-  store: (key: string, values: FormSelect<T>) => void;
+  get: (key: keyof T) => FormSelect<T>;
+  store: (key: keyof T, values: FormSelect<T>) => void;
 };
 
 export interface FormSelect<T extends object> {
@@ -51,10 +51,10 @@ export interface FormSelect<T extends object> {
 }
 
 export interface FormSelectComponentProps<T extends object> {
-  id: string;
+  id: keyof T;
+  componentsStore: FormSelectComponentStore<T>;
   render: (values: FormSelect<T>) => JSX.Element;
   objects: T[];
   format: (object: T) => FormSelectItem;
-  componentsStore?: FormSelectComponentStore<T>;
   defaultItem?: T;
 }

@@ -39,18 +39,18 @@ export function useFormSelect<T extends object>(
 // and we store the values in a ref to get them using a key
 
 type FormSelectComponentStored<T extends object> = {
-  [key: string]: FormSelect<T>;
+  [K in keyof T]: FormSelect<T>;
 };
 
 export function useFormSelectComponentsStore<
   T extends object
 >(): FormSelectComponentStore<T> {
-  const [store, setStore] = useState<FormSelectComponentStored<T>>({});
+  const [store, setStore] = useState<FormSelectComponentStored<T>>({} as any);
 
-  const doGet = (key: string) => store[key] || {};
+  const doGet = (key: keyof T) => store[key] || {};
 
-  const doStore = (key: string, values: FormSelect<T>) =>
-    setStore(store => {
+  const doStore = (key: keyof T, values: FormSelect<T>) =>
+    setStore((store: FormSelectComponentStored<T>) => {
       store[key] = values;
       return _.cloneDeep(store);
     });
