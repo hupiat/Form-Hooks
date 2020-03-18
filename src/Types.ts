@@ -43,11 +43,11 @@ export type FormSelectComponentStore<T extends object> = {
 };
 
 export interface FormSelect<T extends object> {
-  suggestions: FormSelectItem[];
-  onSelect: (object: T) => void;
-  onClear: () => void;
-  itemSelected: FormSelectItem | undefined;
-  objectSelected: T | undefined;
+  suggestions?: FormSelectItem[];
+  onSelect?: (object: T) => void;
+  onClear?: () => void;
+  itemSelected?: FormSelectItem | undefined;
+  objectSelected?: T | undefined;
 }
 
 export interface FormSelectComponentProps<T extends object> {
