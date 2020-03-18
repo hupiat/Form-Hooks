@@ -15,10 +15,6 @@
 
 # misc
 .DS_Store
-.env
-.editorconfig
-.travis.yml
-rollup.config.js
 .env.local
 .env.development.local
 .env.test.local
