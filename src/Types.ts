@@ -38,16 +38,16 @@ export type FormSelectItem = Partial<FormSelectItemCommon> &
   Partial<FormSelectItemSemanticUI>;
 
 export type FormSelectComponentStore<T extends object> = {
-  get: (key: keyof T) => FormSelect<T>;
+  get: (key: keyof T) => Partial<FormSelect<T>>;
   store: (key: keyof T, values: FormSelect<T>) => void;
 };
 
 export interface FormSelect<T extends object> {
-  suggestions?: FormSelectItem[];
-  onSelect?: (object: T) => void;
-  onClear?: () => void;
-  itemSelected?: FormSelectItem | undefined;
-  objectSelected?: T | undefined;
+  suggestions: FormSelectItem[];
+  onSelect: (object: T) => void;
+  onClear: () => void;
+  itemSelected: FormSelectItem | undefined;
+  objectSelected: T | undefined;
 }
 
 export interface FormSelectComponentProps<T extends object> {

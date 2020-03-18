@@ -39,7 +39,7 @@ export function useFormSelect<T extends object>(
 // and we store the values in a ref to get them using a key
 
 type FormSelectComponentStored<T extends object> = {
-  [K in keyof T]: FormSelect<T>;
+  [K in keyof T]: Partial<FormSelect<T>>;
 };
 
 export function useFormSelectComponentsStore<

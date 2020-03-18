@@ -92,22 +92,20 @@ const App = () => {
   const { objectSelected, onSelect, onClear } = componentsStore.get("id");
 
   return (
-    <div>
-      <FormSelectComponent
-        id="id"
-        objects={[
-          {
-            foo: "foo"
-          }
-        ]}
-        format={() => ({
-          value: "foo",
-          label: "foo"
-        })}
-        render={() => <>foo</>}
-        componentsStore={componentsStore}
-      />
-    </div>
+    <FormSelectComponent
+      id="id"
+      objects={[
+        {
+          foo: "foo"
+        }
+      ]}
+      format={() => ({
+        value: "foo",
+        label: "foo"
+      })}
+      render={() => <>foo</>}
+      componentsStore={componentsStore}
+    />
   );
 };
 ```
