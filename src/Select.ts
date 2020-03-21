@@ -3,7 +3,7 @@ import {
   FormSelect,
   FormSelectItem,
   FormSelectComponentProps,
-  FormSelectComponentStore
+  FormSelectStore
 } from "./Types";
 import _ from "lodash";
 
@@ -42,9 +42,7 @@ type FormSelectComponentStored<T extends object> = {
   [K in keyof T]: Partial<FormSelect<T>>;
 };
 
-export function useFormSelectComponentsStore<
-  T extends object
->(): FormSelectComponentStore<T> {
+export function useFormSelectStore<T extends object>(): FormSelectStore<T> {
   const [store, setStore] = useState<FormSelectComponentStored<T>>({} as any);
 
   const doGet = (key: keyof T) => store[key] || {};
@@ -71,12 +69,12 @@ export function FormSelectComponent<T extends object>(
   );
   useEffect(() => {
     if (
-      props.componentsStore &&
-      _.isEmpty(props.componentsStore.get(props.id))
+      props.formSelectStore &&
+      _.isEmpty(props.formSelectStore.get(props.id))
     ) {
-      props.componentsStore.store(props.id, values);
+      props.formSelectStore.store(props.id, values);
     }
-  }, [props.componentsStore, props.id, values]);
+  }, [props.formSelectStore, props.id, values]);
 
-  return props.render(values);
+  return props.render(values.suggestions);
 }
