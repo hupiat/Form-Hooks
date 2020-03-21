@@ -46,8 +46,8 @@ export interface FormSelect<T extends object> {
   suggestions: FormSelectItem[];
   onSelect: (object: T) => void;
   onClear: () => void;
-  itemSelected: FormSelectItem | undefined;
-  objectSelected: T | undefined;
+  itemSelected?: FormSelectItem;
+  objectSelected?: T;
 }
 
 export interface FormSelectComponentProps<T extends object> {

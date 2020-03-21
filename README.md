@@ -72,11 +72,11 @@ FormSelectComponent<T extends object>(
   render: (values: FormSelect<T>) => JSX.Element;
   objects: T[];
   format: (object: T) => FormSelectItem;
-  componentsStore?: FormSelectComponentStore<T>;
+  formSelectStore?: FormSelectComponentStore<T>;
   defaultItem?: T;
 ): JSX.Element
 
-export function useFormSelectComponentsStore<
+export function useFormSelectStore<
   T extends object
 >(): {
   get: (key: string) => FormSelect<T>;
@@ -88,8 +88,8 @@ export function useFormSelectComponentsStore<
 
 ```jsx
 const App = () => {
-  const componentsStore = useFormSelectComponentsStore();
-  const { objectSelected, onSelect, onClear } = componentsStore.get("id");
+  const formSelectStore = useFormSelectStore();
+  const { objectSelected, onSelect, onClear } = formSelectStore.get("id");
 
   return (
     <FormSelectComponent
@@ -104,7 +104,7 @@ const App = () => {
         label: "foo"
       })}
       render={() => <>foo</>}
-      componentsStore={componentsStore}
+      formSelectStore={formSelectStore}
     />
   );
 };
