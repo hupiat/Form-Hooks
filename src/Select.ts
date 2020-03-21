@@ -48,10 +48,10 @@ export function useFormSelectStore<T extends object>(): FormSelectStore<T> {
   const doGet = (key: keyof T) => store[key] || {};
 
   const doStore = (key: keyof T, values: FormSelect<T>) =>
-    setStore((store: FormSelectComponentStored<T>) => {
-      store[key] = values;
-      return _.cloneDeep(store);
-    });
+    setStore((store: FormSelectComponentStored<T>) => ({
+      ...store,
+      [key]: values
+    }));
 
   return {
     get: doGet,
