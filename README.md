@@ -6,13 +6,13 @@ Lightweight hooks to deal with React forms
 
 # API
 
-##### Sets a state for an object, with a generic type-safe setter
+<b>Sets a state for an object, with a generic type-safe setter</b>
 
 ```typescript
 useFormState: <T extends object>(object?: T) => [formState, setFormState];
 ```
 
-##### Validation schema are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions
+<b>Validation schema are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions</b>
 
 ```typescript
 (object: T) => boolean;
@@ -44,7 +44,7 @@ const schema: FormValidationSchema<Test> = {
 };
 ```
 
-##### Tool for selects
+<b>Tool for selects</b>
 
 FormSelectItem supports common format ({ value, label }) and
 specific SemanticUI format ({ key, value, text })
