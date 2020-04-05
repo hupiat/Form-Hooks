@@ -3,7 +3,7 @@ import {
   FormSelect,
   FormSelectItem,
   FormSelectComponentProps,
-  FormSelectStore
+  FormSelectStore,
 } from "./Types";
 import _ from "lodash";
 
@@ -29,7 +29,7 @@ export function useFormSelect<T extends object>(
     onSelect,
     onClear,
     objectSelected,
-    itemSelected: objectSelected && format(objectSelected)
+    itemSelected: objectSelected && format(objectSelected),
   };
 }
 
@@ -50,12 +50,12 @@ export function useFormSelectStore<T extends object>(): FormSelectStore<T> {
   const doStore = (key: keyof T, values: FormSelect<T>) =>
     setStore((store: FormSelectComponentStored<T>) => ({
       ...store,
-      [key]: values
+      [key]: values,
     }));
 
   return {
     get: doGet,
-    store: doStore
+    store: doStore,
   };
 }
 
@@ -70,6 +70,7 @@ export function FormSelectComponent<T extends object>(
   useEffect(() => {
     if (
       props.formSelectStore &&
+      props.id &&
       _.isEmpty(props.formSelectStore.get(props.id))
     ) {
       props.formSelectStore.store(props.id, values);

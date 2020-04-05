@@ -40,7 +40,7 @@ interface Test {
 
 const schema: FormValidationSchema<Test> = {
   foo: (object: Test) => foo.length > 5,
-  foo2: Yup.number.max(10)
+  foo2: Yup.number.max(10),
 };
 ```
 
@@ -67,7 +67,7 @@ Solution for many selects in a single component
 
 ```typescript
 FormSelectComponent<T extends object>(
-  id: string;
+  id?: string;
   render: (values: FormSelect<T>) => JSX.Element;
   objects: T[];
   format: (object: T) => FormSelectItem;
@@ -95,12 +95,12 @@ const App = () => {
       id="id"
       objects={[
         {
-          foo: "foo"
-        }
+          foo: "foo",
+        },
       ]}
       format={() => ({
         value: "foo",
-        label: "foo"
+        label: "foo",
       })}
       render={() => <>foo</>}
       formSelectStore={formSelectStore}
