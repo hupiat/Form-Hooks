@@ -11,7 +11,7 @@ export type CallbacksSchema<T extends object> = {
 };
 
 export type FormValidationSchema<T extends object> = {
-  [K in keyof T]: ((object: T) => boolean) | YupSchemaValues;
+  [K in keyof T]?: ((object: T) => boolean) | YupSchemaValues;
 };
 
 export type FormValidationError<T extends object> = {
