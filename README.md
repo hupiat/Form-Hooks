@@ -12,7 +12,7 @@ Lightweight hooks to deal with React forms
 useFormState: <T extends object>(object?: T) => [formState, setFormState];
 ```
 
-<b>Validation schema are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions</b>
+<b>Validation schemas are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions, strongly typed</b>
 
 ```typescript
 (object: T) => boolean;
