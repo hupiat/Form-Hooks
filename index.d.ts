@@ -1,4 +1,6 @@
-import { useFormState } from "./src/State";
-import { useFormValidation } from "./src/Validation";
-import { useFormSelect } from "./src/Select";
-export { useFormState, useFormValidation, useFormSelect };
+import { FormValidation, FormValidationSchema } from "./src/Types";
+
+export declare const useFormValidation: <T extends object>(
+  schema: FormValidationSchema<T>,
+  object: T
+) => FormValidation<T>;

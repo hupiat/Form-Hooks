@@ -5,7 +5,7 @@ import {
   FormValidation,
   FormValidationError,
   CallbacksSchema,
-  YupSchema
+  YupSchema,
 } from "./Types";
 import _ from "lodash";
 
@@ -25,9 +25,9 @@ export function useFormValidation<T extends object>(
   useEffect(() => {
     const tempSchema = _.cloneDeep(schema);
     Object.keys(schema)
-      .map(key => key as keyof T)
-      .filter(key => (schema[key] as any) instanceof Function)
-      .forEach(key => {
+      .map((key) => key as keyof T)
+      .filter((key) => (schema[key] as any) instanceof Function)
+      .forEach((key) => {
         callbacksSchema.current[key] = schema[key] as (object: T) => boolean;
         delete tempSchema[key];
       });
@@ -41,13 +41,14 @@ export function useFormValidation<T extends object>(
 
     const pushError = (key: keyof T, message: string) => {
       errors[errors.length] = {
-        [key]: message
+        code: errors.length,
+        [key]: message,
       } as FormValidationError<T>;
     };
 
     Object.keys(callbacksSchema.current)
-      .map(key => key as keyof T)
-      .forEach(key => {
+      .map((key) => key as keyof T)
+      .forEach((key) => {
         if (!callbacksSchema.current[key](object)) {
           pushError(key, CALLBACK_VALIDATION_FAILED(key as string));
         }
@@ -67,6 +68,6 @@ export function useFormValidation<T extends object>(
 
   return {
     canValidate,
-    errors
+    errors,
   };
 }

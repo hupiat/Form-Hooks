@@ -1,7 +1,7 @@
 {
-  "name": "form-hooks-light",
-  "version": "1.4.0",
-  "description": "Lightweight hooks to deal with React forms",
+  "name": "formook",
+  "version": "1.5.0",
+  "description": "Validation hook to deal with React forms",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/hupiat/Form-Hooks.git"
