@@ -8,7 +8,7 @@ Validation hook to deal with React forms
 
 Validation schemas are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false)
 
-Validation will be triggered only when the object is updated
+**Validation will be triggered only when the object is updated**
 
 ```typescript
 useFormValidation: <T extends object>(
