@@ -20,7 +20,7 @@ export type FormValidationSchema<T extends object> = {
 
 export type FormValidationError<T extends object> = {
   [K in keyof T]: string;
-} & { code: number };
+};
 
 export interface FormValidation<T extends object> {
   canValidate: boolean;

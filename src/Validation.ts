@@ -41,7 +41,6 @@ export function useFormValidation<T extends object>(
 
     const pushError = (key: keyof T, message: string) => {
       errors[errors.length] = {
-        code: errors.length,
         [key]: message,
       } as FormValidationError<T>;
     };
