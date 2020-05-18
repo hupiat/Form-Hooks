@@ -6,12 +6,16 @@ export type YupSchema<T extends object> = {
   [K in keyof T]: YupSchemaValues;
 };
 
+export type FormValidationSchemaFunction<T extends object> = (
+  object: T
+) => boolean | string;
+
 export type CallbacksSchema<T extends object> = {
-  [K in keyof T]: (object: T) => boolean;
+  [K in keyof T]: FormValidationSchemaFunction<T>;
 };
 
 export type FormValidationSchema<T extends object> = {
-  [K in keyof T]?: ((object: T) => boolean) | YupSchemaValues;
+  [K in keyof T]?: FormValidationSchemaFunction<T> | YupSchemaValues;
 };
 
 export type FormValidationError<T extends object> = {

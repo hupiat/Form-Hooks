@@ -49,8 +49,14 @@ export function useFormValidation<T extends object>(
     Object.keys(callbacksSchema.current)
       .map((key) => key as keyof T)
       .forEach((key) => {
-        if (!callbacksSchema.current[key](object)) {
-          pushError(key, CALLBACK_VALIDATION_FAILED(key as string));
+        const res = callbacksSchema.current[key](object);
+        if (typeof res === "string" || typeof res === "boolean") {
+          pushError(
+            key,
+            typeof res === "string"
+              ? res
+              : CALLBACK_VALIDATION_FAILED(key as string)
+          );
         }
       });
     if (yupSchema.current) {

@@ -6,11 +6,7 @@ Validation hook to deal with React forms
 
 # API
 
-<b>Validation schemas are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions</b>
-
-```typescript
-(object: T) => boolean;
-```
+Validation schemas are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false)
 
 Validation will be triggered only when the object is updated
 
@@ -27,8 +23,12 @@ useFormValidation: <T extends object>(
 <b>Types</b>
 
 ```typescript
+type FormValidationSchemaFunction<T extends object> = (
+  object: T
+) => boolean | string;
+
 type FormValidationSchema<T extends object> = {
-  [K in keyof T]?: ((object: T) => boolean) | YupSchemaValues;
+  [K in keyof T]?: FormValidationSchemaFunction<T> | YupSchemaValues;
 };
 
 type FormValidationError<T extends object> = {
@@ -40,12 +40,13 @@ type FormValidationError<T extends object> = {
 
 ```typescript
 interface Test {
-  foo: string;
-  foo2: number;
+  foo: number;
+  foo2: string;
 }
 
 const schema: FormValidationSchema<Test> = {
-  foo: (object: Test) => foo.length > 5,
-  foo2: Yup.number.max(10),
+  foo: Yup.number.max(10),
+  foo2: (object: Test) =>
+    foo.length > 5 || "Input should be at least 6 chars long",
 };
 ```
