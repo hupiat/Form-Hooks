@@ -33,7 +33,7 @@ type FormValidationSchema<T extends object> = {
 
 type FormValidationError<T extends object> = {
   [K in keyof T]: string;
-} & { code: number };
+};
 ```
 
 <b>Example</b>
