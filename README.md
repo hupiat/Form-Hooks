@@ -2,6 +2,10 @@
 
 Validation hook to deal with React forms
 
+Designed to be use with a single object, allowing strong autocompletion
+
+The validation trigger is debounced to optimize performances
+
 `npm i formook --save`
 
 # API
