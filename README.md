@@ -18,7 +18,7 @@ Validation schemas are made using a mix of :
 
 **The validation will be triggered only when the object is updated**
 
-Note that Yup and Joi can't be used both at the same time, you need to use the function **switchHighLevelValidation** to define your schema library
+Note that Yup and Joi can't be used both at the same time, you need to use the function **switchHighLevelValidation** to define your schema library **(yup by default)**
 
 ```typescript
 function switchHighLevelValidation: (
