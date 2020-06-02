@@ -16,7 +16,7 @@ Validation schemas are made using a mix of :
 - Joi (https://hapi.dev/module/joi/)
 - Boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false)
 
-**The validation will be trigger only when the object is updated**
+**The validation will be triggered only when the object is updated**
 
 It forces you to update your object reference when you want to switch between schemas, but you should not need it as the dynamic schemas are made possible with functions
 
