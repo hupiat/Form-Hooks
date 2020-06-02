@@ -33,7 +33,7 @@ export function useFormValidation<T extends object>(
   const callbacksSchema = useRef<CallbacksSchema<T>>({} as CallbacksSchema<T>);
   const highLevelSchema = useRef<Yup.ObjectSchema | Joi.ObjectSchema>();
 
-  // Building differents schemas for yup and validation callbacks
+  // Building differents schemas for high level ones and validation callbacks
   useEffect(() => {
     const tempSchema = _.cloneDeep(schema);
 
