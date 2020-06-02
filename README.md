@@ -31,7 +31,7 @@ function useFormValidation: <T extends object>(
   options?: FormValidationOptions
 ): {
   canValidate: boolean;
-  errors: FormValidationError < T > [];
+  errors: FormValidationError<T> [];
 };
 ```
 
