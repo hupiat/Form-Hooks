@@ -6,15 +6,26 @@ Validation hook to deal with React forms
 
 # API
 
-Validation schemas are made using a mix of Yup (https://github.com/jquense/yup) and boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false)
+Validation schemas are made using a mix of :
 
-**Validation will be triggered only when the object is updated**
+- Yup (https://github.com/jquense/yup)
+- Joi (https://hapi.dev/module/joi/)
+- Boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false)
+
+**The validation will be triggered only when the object is updated**
+
+Note that Yup and Joi can't be used both at the same time, you need to use the function **switchHighLevelValidation** to define your schema library
 
 ```typescript
-useFormValidation: <T extends object>(
+function switchHighLevelValidation: (
+  schemaType: HighLevelSchema
+) => HighLevelSchema;
+
+function useFormValidation: <T extends object>(
   schema: FormValidationSchema<T>,
-  object: T
-) => {
+  object: T,
+  options?: FormValidationOptions
+): {
   canValidate: boolean;
   errors: FormValidationError < T > [];
 };
@@ -23,17 +34,17 @@ useFormValidation: <T extends object>(
 <b>Types</b>
 
 ```typescript
+type HighLevelSchema = "yup" | "joi";
+
 type FormValidationSchemaFunction<T extends object> = (
   object: T
 ) => boolean | string;
 
-type FormValidationSchema<T extends object> = {
-  [K in keyof T]?: FormValidationSchemaFunction<T> | YupSchemaValues;
+type FormValidationErrors<T extends object> = {
+  [K in keyof T]?: string;
 };
 
-type FormValidationError<T extends object> = {
-  [K in keyof T]: string;
-};
+type FormValidationOptions = Yup.ValidateOptions | Joi.ValidationOptions;
 ```
 
 <b>Example</b>
@@ -44,9 +55,19 @@ interface Test {
   foo2: string;
 }
 
+const object = await fetchData();
+
 const schema: FormValidationSchema<Test> = {
   foo: Yup.number.max(10),
   foo2: (object: Test) =>
     foo.length > 5 || "Input should be at least 6 chars long",
+};
+
+// If you are using joi
+
+switchHighLevelValidation("joi");
+
+const schema: FormValidationSchema<Test> = {
+  foo: Joi.number.max(10),
 };
 ```

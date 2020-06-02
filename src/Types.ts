@@ -1,4 +1,13 @@
 import * as Yup from "yup";
+import Joi from "@hapi/joi";
+
+export type HighLevelSchema = "yup" | "joi";
+
+export type JoiSchemaValues = Joi.Schema | Joi.Reference;
+
+export type JoiSchema<T extends object> = {
+  [K in keyof T]: JoiSchemaValues;
+};
 
 export type YupSchemaValues = Yup.Schema<any> | Yup.Ref;
 
@@ -14,15 +23,24 @@ export type CallbacksSchema<T extends object> = {
   [K in keyof T]: FormValidationSchemaFunction<T>;
 };
 
-export type FormValidationSchema<T extends object> = {
-  [K in keyof T]?: FormValidationSchemaFunction<T> | YupSchemaValues;
+export type FormValidationSchemaGeneric<
+  T extends object,
+  SV extends YupSchemaValues | JoiSchemaValues
+> = {
+  [K in keyof T]?: FormValidationSchemaFunction<T> | SV;
 };
 
-export type FormValidationError<T extends object> = {
-  [K in keyof T]: string;
+export type FormValidationSchema<T extends object> =
+  | FormValidationSchemaGeneric<T, YupSchemaValues>
+  | FormValidationSchemaGeneric<T, JoiSchemaValues>;
+
+export type FormValidationErrors<T extends object> = {
+  [K in keyof T]?: string;
 };
+
+export type FormValidationOptions = Yup.ValidateOptions | Joi.ValidationOptions;
 
 export interface FormValidation<T extends object> {
   canValidate: boolean;
-  errors: FormValidationError<T>[];
+  errors: FormValidationErrors<T>;
 }

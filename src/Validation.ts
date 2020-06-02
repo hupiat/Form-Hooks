@@ -3,27 +3,40 @@ import * as Yup from "yup";
 import {
   FormValidationSchema,
   FormValidation,
-  FormValidationError,
+  FormValidationErrors,
   CallbacksSchema,
   YupSchema,
+  HighLevelSchema,
+  JoiSchema,
+  FormValidationOptions,
 } from "./Types";
 import _ from "lodash";
+import Joi from "@hapi/joi";
 
-const CALLBACK_VALIDATION_FAILED = (label: string) =>
+let ENABLED_HL_SCHEMA: HighLevelSchema | null = "yup";
+
+const DEBOUNCE_DELAY_MS: number = 350;
+
+const VALIDATION_FAILED_DEF = (label: string) =>
   `Validation function for ${label} failed`;
+
+export const switchHighLevelValidation = (schemaType: HighLevelSchema) =>
+  (ENABLED_HL_SCHEMA = schemaType);
 
 export function useFormValidation<T extends object>(
   schema: FormValidationSchema<T>,
-  object: T
+  object: T,
+  options?: FormValidationOptions
 ): FormValidation<T> {
   const [canValidate, setCanValidate] = useState<boolean>(false);
-  const [errors, setErrors] = useState<FormValidationError<T>[]>([]);
+  const [errors, setErrors] = useState<FormValidationErrors<T>>({});
   const callbacksSchema = useRef<CallbacksSchema<T>>({} as CallbacksSchema<T>);
-  const yupSchema = useRef<Yup.ObjectSchema>();
+  const highLevelSchema = useRef<Yup.ObjectSchema | Joi.ObjectSchema>();
 
   // Building differents schemas for yup and validation callbacks
   useEffect(() => {
     const tempSchema = _.cloneDeep(schema);
+
     Object.keys(schema)
       .map((key) => key as keyof T)
       .filter((key) => (schema[key] as any) instanceof Function)
@@ -32,43 +45,65 @@ export function useFormValidation<T extends object>(
         delete tempSchema[key];
       });
 
-    yupSchema.current = Yup.object().shape(tempSchema as YupSchema<T>);
+    try {
+      highLevelSchema.current =
+        ENABLED_HL_SCHEMA === "yup"
+          ? Yup.object().shape(tempSchema as YupSchema<T>)
+          : Joi.object(tempSchema as JoiSchema<T>);
+    } catch {
+      throw Error(`Schema type mismatch : ${ENABLED_HL_SCHEMA}`);
+    }
   }, [schema]);
 
   // Testing if validation is allowed, while populating errors object
-  useEffect(() => {
-    const errors: FormValidationError<T>[] = [];
+  const validate = () => {
+    const errors: FormValidationErrors<T> = {};
 
-    const pushError = (key: keyof T, message: string) => {
-      errors[errors.length] = {
-        [key]: message,
-      } as FormValidationError<T>;
-    };
+    const pushError = (key: keyof T, message: string) =>
+      (errors[key] = message);
 
     Object.keys(callbacksSchema.current)
       .map((key) => key as keyof T)
       .forEach((key) => {
         const res = callbacksSchema.current[key](object);
-        if (typeof res === "string" || typeof res === "boolean") {
+        if (typeof res === "string" || (typeof res === "boolean" && !res)) {
           pushError(
             key,
-            typeof res === "string"
-              ? res
-              : CALLBACK_VALIDATION_FAILED(key as string)
+            typeof res === "string" ? res : VALIDATION_FAILED_DEF(key as string)
           );
         }
       });
-    if (yupSchema.current) {
-      try {
-        yupSchema.current.validateSync(object);
-      } catch (e) {
-        const err = e as Yup.ValidationError;
-        pushError(err.path as keyof T, err.message);
+
+    if (highLevelSchema.current) {
+      if (ENABLED_HL_SCHEMA === "yup") {
+        try {
+          (highLevelSchema.current as Yup.ObjectSchema).validateSync(
+            object,
+            options as Yup.ValidateOptions
+          );
+        } catch (e) {
+          const err = e as Yup.ValidationError;
+          pushError(err.path as keyof T, err.message);
+        }
+      } else {
+        const res = (highLevelSchema.current as Joi.ObjectSchema).validate(
+          object,
+          options as Joi.ValidationOptions
+        );
+        if (res.error) {
+          pushError(res.error.name as keyof T, res.error.message);
+        }
       }
     }
 
     setErrors(errors);
-    setCanValidate(errors.length <= 0);
+    setCanValidate(Object.keys(errors).length <= 0);
+  };
+
+  // We are debouncing validation to avoid too many re-renders
+  useEffect(() => {
+    const timeout = setTimeout(validate, DEBOUNCE_DELAY_MS);
+    return () => clearTimeout(timeout);
   }, [object]);
 
   return {
