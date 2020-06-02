@@ -29,7 +29,7 @@ function useFormValidation: <T extends object>(
   schema: FormValidationSchema<T>,
   object: T,
   options?: FormValidationOptions
-): {
+) => {
   canValidate: boolean;
   errors: FormValidationError<T> [];
 };
