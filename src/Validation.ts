@@ -62,17 +62,15 @@ export function useFormValidation<T extends object>(
     const pushError = (key: keyof T, message: string) =>
       (errors[key] = message);
 
-    Object.keys(callbacksSchema.current)
-      .map((key) => key as keyof T)
-      .forEach((key) => {
-        const res = callbacksSchema.current[key](object);
-        if (typeof res === "string" || (typeof res === "boolean" && !res)) {
-          pushError(
-            key,
-            typeof res === "string" ? res : VALIDATION_FAILED_DEF(key as string)
-          );
-        }
-      });
+    Object.keys(callbacksSchema.current).forEach((key) => {
+      const res = callbacksSchema.current[key](object);
+      if (typeof res === "string" || (typeof res === "boolean" && !res)) {
+        pushError(
+          key as keyof T,
+          typeof res === "string" ? res : VALIDATION_FAILED_DEF(key as string)
+        );
+      }
+    });
 
     if (highLevelSchema.current) {
       if (ENABLED_HL_SCHEMA === "yup") {
