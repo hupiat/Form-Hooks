@@ -59,7 +59,7 @@ interface Test {
   foo2: string;
 }
 
-const object = await fetchData();
+const object: Test = await fetchData();
 
 const schema: FormValidationSchema<Test> = {
   foo: Yup.number.max(10),
@@ -74,4 +74,6 @@ switchHighLevelValidation("joi");
 const schema: FormValidationSchema<Test> = {
   foo: Joi.number.max(10),
 };
+
+const { canValidate, errors } = useFormValidation(schema, object);
 ```
