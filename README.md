@@ -63,17 +63,17 @@ interface Test {
 
 const object: Test = await fetchData();
 
-const schema: FormValidationSchema<Test> = {
+let schema: FormValidationSchema<Test> = {
   foo: Yup.number.max(10),
   foo2: (object: Test) =>
-    foo.length > 5 || "Input should be at least 6 chars long",
+    object.length > 5 || "Input should be at least 6 chars long",
 };
 
 // If you are using joi
 
 switchHighLevelValidation("joi");
 
-const schema: FormValidationSchema<Test> = {
+schema = {
   foo: Joi.number.max(10),
 };
 
