@@ -1,4 +1,4 @@
-# Formook
+## Resume
 
 Validation hook to deal with React forms
 
@@ -8,7 +8,7 @@ The validation trigger is debounced to optimize performances
 
 `npm i formook --save`
 
-# API
+## API
 
 Validation schemas are made using a mix of :
 
@@ -37,7 +37,7 @@ function useFormValidation: <T extends object>(
 };
 ```
 
-<b>Types</b>
+## Types
 
 ```typescript
 type HighLevelSchema = "yup" | "joi";
@@ -53,7 +53,7 @@ type FormValidationErrors<T extends object> = {
 type FormValidationOptions = Yup.ValidateOptions | Joi.ValidationOptions;
 ```
 
-<b>Example</b>
+## Example
 
 ```typescript
 interface Test {
