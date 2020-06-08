@@ -108,7 +108,7 @@ it("should throw a type mismatch error for high level schema", () => {
     try {
       <HookTrigger />;
     } catch (e) {
-      expect(e.message).toBe(`Schema type mismatch : joi`);
+      expect(e.message).toBe("Schema type mismatch : joi");
     }
   }, container);
 });

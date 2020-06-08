@@ -13,7 +13,7 @@ import {
 import _ from "lodash";
 import Joi from "@hapi/joi";
 
-let ENABLED_HL_SCHEMA: HighLevelSchema | null = "yup";
+let ENABLED_HL_SCHEMA: HighLevelSchema = "yup";
 
 const DEBOUNCE_DELAY_MS: number = 350;
 
