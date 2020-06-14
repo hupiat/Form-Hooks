@@ -39,7 +39,7 @@ export function useFormValidation<T extends object>(
     const tmpSchema = _.cloneDeep(schema);
 
     Object.keys(schema)
-      .filter((key) => (schema[key] as any) instanceof Function)
+      .filter((key) => schema[key] instanceof Function)
       .forEach((key) => {
         callbacksSchema.current[key] = schema[key];
         delete tmpSchema[key];
