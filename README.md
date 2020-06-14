@@ -14,7 +14,7 @@ Validation schemas are made using a mix of :
 
 - Yup (https://github.com/jquense/yup)
 - Joi (https://hapi.dev/module/joi/)
-- Boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false)
+- Boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false). They are not present in joi, and unlike yup, they take the complete object in parameter
 
 **The validation will be triggered only when the object is updated**
 
