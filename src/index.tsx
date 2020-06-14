@@ -1,3 +1,3 @@
-import { useFormValidation, switchHighLevelValidation } from "./Validation";
+import { useFormValidation, switchHighLevelValidation } from "./validation";
 
 export default { useFormValidation, switchHighLevelValidation };

@@ -9,15 +9,16 @@ import {
   HighLevelSchema,
   JoiSchema,
   FormValidationOptions,
-} from "./Types";
+} from "./types";
 import _ from "lodash";
 import Joi from "@hapi/joi";
+import { ErrorsKit } from "./errors";
 
 let ENABLED_HL_SCHEMA: HighLevelSchema = "yup";
 
 const DEBOUNCE_DELAY_MS: number = 350;
 
-const FUNC_FAILED_DEFAULT = (label: string) =>
+const VALIDATION_FAILED_DEF = (label: string) =>
   `Validation function for ${label} failed`;
 
 export const switchHighLevelValidation = (schemaType: HighLevelSchema) =>
@@ -37,10 +38,12 @@ export function useFormValidation<T extends object>(
   useEffect(() => {
     const tmpSchema = _.cloneDeep(schema);
 
-    Object.keys(schema).forEach((key) => {
-      callbacksSchema.current[key] = schema[key];
-      delete tmpSchema[key];
-    });
+    Object.keys(schema)
+      .filter((key) => (schema[key] as any) instanceof Function)
+      .forEach((key) => {
+        callbacksSchema.current[key] = schema[key];
+        delete tmpSchema[key];
+      });
 
     try {
       highLevelSchema.current =
@@ -48,7 +51,7 @@ export function useFormValidation<T extends object>(
           ? Yup.object().shape(tmpSchema as YupSchema<T>)
           : Joi.object(tmpSchema as JoiSchema<T>);
     } catch {
-      throw Error(`Schema type mismatch : ${ENABLED_HL_SCHEMA}`);
+      ErrorsKit().throwError(`Schema type mismatch : ${ENABLED_HL_SCHEMA}`);
     }
   }, [schema]);
 
@@ -64,7 +67,7 @@ export function useFormValidation<T extends object>(
       if (typeof res === "string" || (typeof res === "boolean" && !res)) {
         pushError(
           key as keyof T,
-          typeof res === "string" ? res : FUNC_FAILED_DEFAULT(key as string)
+          typeof res === "string" ? res : VALIDATION_FAILED_DEF(key as string)
         );
       }
     });

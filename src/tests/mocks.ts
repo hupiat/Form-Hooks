@@ -1,4 +1,4 @@
-import { FormValidationSchema } from "../Types";
+import { FormValidationSchema } from "../types";
 import * as Yup from "yup";
 import Joi from "@hapi/joi";
 

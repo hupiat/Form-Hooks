@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { useFormValidation, switchHighLevelValidation } from "../Validation";
+import { useFormValidation, switchHighLevelValidation } from "../validation";
 import {
   mockFlower,
   mockSchema,
@@ -8,11 +8,21 @@ import {
   mockAltSchema,
   MOCK_SCHEMA_PETALS_ERROR,
 } from "./mocks";
-import { renderHook, RenderHookResult } from "@testing-library/react-hooks";
-import { FormValidation } from "../Types";
+import {
+  renderHook,
+  RenderHookResult,
+  act,
+} from "@testing-library/react-hooks";
+import { FormValidation } from "../types";
 import _ from "lodash";
+import { EnvironmentHandler } from "../environment";
+import { ErrorsKit } from "../errors";
 
 let container: HTMLDivElement | null;
+
+beforeAll(() => {
+  EnvironmentHandler().setEnv("test");
+});
 
 beforeEach(() => {
   switchHighLevelValidation("yup");
@@ -93,22 +103,9 @@ it("should be blocked by a function", async () => {
   expect(rendered.result.current.errors.petals).toBe(MOCK_SCHEMA_PETALS_ERROR);
 });
 
-it("should throw a type mismatch error for high level schema", () => {
+it("should throw a type mismatch error for high level schema", async () => {
   switchHighLevelValidation("joi");
-
-  // We need to use a wrapper component since the render hook API
-  // is conflicting with js-dom
-
-  const HookTrigger = () => {
-    useFormValidation(mockSchema, mockFlower);
-    return <></>;
-  };
-
-  ReactDOM.render(() => {
-    try {
-      <HookTrigger />;
-    } catch (e) {
-      expect(e.message).toBe("Schema type mismatch : joi");
-    }
-  }, container);
+  const rendered = renderHook(() => useFormValidation(mockSchema, mockFlower));
+  await rendered.waitForNextUpdate();
+  expect(ErrorsKit().lastError).toBe("Schema type mismatch : joi");
 });
