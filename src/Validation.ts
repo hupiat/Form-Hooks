@@ -17,7 +17,7 @@ let ENABLED_HL_SCHEMA: HighLevelSchema = "yup";
 
 const DEBOUNCE_DELAY_MS: number = 350;
 
-const VALIDATION_FAILED_DEF = (label: string) =>
+const FUNC_FAILED_DEFAULT = (label: string) =>
   `Validation function for ${label} failed`;
 
 export const switchHighLevelValidation = (schemaType: HighLevelSchema) =>
@@ -35,20 +35,18 @@ export function useFormValidation<T extends object>(
 
   // Building differents schemas for high level ones and validation callbacks
   useEffect(() => {
-    const tempSchema = _.cloneDeep(schema);
+    const tmpSchema = _.cloneDeep(schema);
 
-    Object.keys(schema)
-      .filter((key) => (schema[key] as any) instanceof Function)
-      .forEach((key) => {
-        callbacksSchema.current[key] = schema[key] as (object: T) => boolean;
-        delete tempSchema[key];
-      });
+    Object.keys(schema).forEach((key) => {
+      callbacksSchema.current[key] = schema[key];
+      delete tmpSchema[key];
+    });
 
     try {
       highLevelSchema.current =
         ENABLED_HL_SCHEMA === "yup"
-          ? Yup.object().shape(tempSchema as YupSchema<T>)
-          : Joi.object(tempSchema as JoiSchema<T>);
+          ? Yup.object().shape(tmpSchema as YupSchema<T>)
+          : Joi.object(tmpSchema as JoiSchema<T>);
     } catch {
       throw Error(`Schema type mismatch : ${ENABLED_HL_SCHEMA}`);
     }
@@ -66,7 +64,7 @@ export function useFormValidation<T extends object>(
       if (typeof res === "string" || (typeof res === "boolean" && !res)) {
         pushError(
           key as keyof T,
-          typeof res === "string" ? res : VALIDATION_FAILED_DEF(key as string)
+          typeof res === "string" ? res : FUNC_FAILED_DEFAULT(key as string)
         );
       }
     });
