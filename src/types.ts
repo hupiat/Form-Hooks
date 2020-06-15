@@ -36,9 +36,11 @@ export type FormValidationSchema<T extends object> =
   | FormValidationSchemaGeneric<T, YupSchemaValues>
   | FormValidationSchemaGeneric<T, JoiSchemaValues>;
 
-export type FormValidationErrors<T extends object> = {
-  [K in keyof T]?: string;
-};
+export type FormValidationErrors<T extends object> =
+  | {
+      [K in keyof T]?: string;
+    }
+  | { [K: string]: string };
 
 export type FormValidationOptions = Yup.ValidateOptions | Joi.ValidationOptions;
 

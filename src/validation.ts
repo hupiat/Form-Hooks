@@ -58,15 +58,14 @@ export function useFormValidation<T extends object>(
   const validate = () => {
     const errors: FormValidationErrors<T> = {};
 
-    const pushError = (key: keyof T, message: string) =>
-      (errors[key] = message);
+    const pushError = (key: string, message: string) => (errors[key] = message);
 
     Object.keys(callbacksSchema.current).forEach((key) => {
       const res = callbacksSchema.current[key](object);
       if (typeof res === "string" || (typeof res === "boolean" && !res)) {
         pushError(
-          key as keyof T,
-          typeof res === "string" ? res : FUNC_FAILED_DEFAULT(key as string)
+          key,
+          typeof res === "string" ? res : FUNC_FAILED_DEFAULT(key)
         );
       }
     });
@@ -80,7 +79,7 @@ export function useFormValidation<T extends object>(
           );
         } catch (e) {
           const err = e as Yup.ValidationError;
-          pushError(err.path as keyof T, err.message);
+          pushError(err.path, err.message);
         }
       } else {
         const res = (highLevelSchema.current as Joi.ObjectSchema).validate(
@@ -88,7 +87,7 @@ export function useFormValidation<T extends object>(
           options as Joi.ValidationOptions
         );
         if (res.error) {
-          pushError(res.error.name as keyof T, res.error.message);
+          pushError(res.error.name, res.error.message);
         }
       }
     }
