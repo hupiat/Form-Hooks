@@ -37,9 +37,8 @@ export function useFormValidation<T extends object>(
   // Building differents schemas for high level ones and validation callbacks
   useEffect(() => {
     const tmpSchema = _.cloneDeep(schema);
-
     Object.keys(schema)
-      .filter((key) => schema[key] instanceof Function)
+      .filter((key) => typeof schema[key] === "function")
       .forEach((key) => {
         callbacksSchema.current[key] = schema[key];
         delete tmpSchema[key];
