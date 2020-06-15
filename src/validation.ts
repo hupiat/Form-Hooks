@@ -18,7 +18,7 @@ let ENABLED_HL_SCHEMA: HighLevelSchema = "yup";
 
 const DEBOUNCE_DELAY_MS: number = 350;
 
-const VALIDATION_FAILED_DEF = (label: string) =>
+const FUNC_FAILED_DEFAULT = (label: string) =>
   `Validation function for ${label} failed`;
 
 export const switchHighLevelValidation = (schemaType: HighLevelSchema) =>
@@ -67,7 +67,7 @@ export function useFormValidation<T extends object>(
       if (typeof res === "string" || (typeof res === "boolean" && !res)) {
         pushError(
           key as keyof T,
-          typeof res === "string" ? res : VALIDATION_FAILED_DEF(key as string)
+          typeof res === "string" ? res : FUNC_FAILED_DEFAULT(key as string)
         );
       }
     });

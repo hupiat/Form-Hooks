@@ -1,5 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import { useFormValidation, switchHighLevelValidation } from "../validation";
 import {
   mockFlower,
@@ -8,11 +6,7 @@ import {
   mockAltSchema,
   MOCK_SCHEMA_PETALS_ERROR,
 } from "./mocks";
-import {
-  renderHook,
-  RenderHookResult,
-  act,
-} from "@testing-library/react-hooks";
+import { renderHook, RenderHookResult } from "@testing-library/react-hooks";
 import { FormValidation } from "../types";
 import _ from "lodash";
 import { EnvironmentHandler } from "../environment";
@@ -107,5 +101,6 @@ it("should throw a type mismatch error for high level schema", async () => {
   switchHighLevelValidation("joi");
   const rendered = renderHook(() => useFormValidation(mockSchema, mockFlower));
   await rendered.waitForNextUpdate();
+
   expect(ErrorsKit().lastError).toBe("Schema type mismatch : joi");
 });
