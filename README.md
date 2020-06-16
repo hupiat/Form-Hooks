@@ -66,7 +66,7 @@ const object: Test = await fetchData();
 let schema: FormValidationSchema<Test> = {
   foo: Yup.number.max(10),
   foo2: (object: Test) =>
-    object.length > 5 || "Input should be at least 6 chars long",
+    object.foo2.length > 5 || "Input should be at least 6 chars long",
 };
 
 // If you are using joi
