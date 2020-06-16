@@ -46,9 +46,12 @@ type FormValidationSchemaFunction<T extends object> = (
   object: T
 ) => boolean | string;
 
-type FormValidationErrors<T extends object> = {
-  [K in keyof T]?: string;
-};
+type FormValidationErrors<T extends object> =
+  | {
+      [K in keyof T]?: string;
+    }
+  // This one is needed because of joi errors
+  | { [K: string]: string };
 
 type FormValidationOptions = Yup.ValidateOptions | Joi.ValidationOptions;
 ```
