@@ -1,16 +1,36 @@
 import { useFormValidation, switchHighLevelValidation } from "../validation";
-import {
-  mockFlower,
-  mockSchema,
-  Flower,
-  mockAltSchema,
-  MOCK_SCHEMA_PETALS_ERROR,
-} from "./mocks";
 import { renderHook, RenderHookResult } from "@testing-library/react-hooks";
-import { FormValidation } from "../types";
+import { FormValidation, FormValidationSchema } from "../types";
 import _ from "lodash";
 import { EnvironmentHandler } from "../environment";
 import { ErrorsKit } from "../errors";
+import Joi from "@hapi/joi";
+import * as Yup from "yup";
+
+type Flower = {
+  name: string;
+  color: string;
+  petals: number;
+};
+
+const mockFlower: Flower = {
+  name: "Orchid",
+  color: "Purple",
+  petals: 2,
+};
+
+const MOCK_SCHEMA_PETALS_ERROR: string = "A flower should have petals";
+
+const mockSchema: FormValidationSchema<Flower> = {
+  name: Yup.string().min(5),
+  color: (f: Flower) => !!f.color,
+  petals: (f: Flower) => f.petals > 0 || MOCK_SCHEMA_PETALS_ERROR,
+};
+
+const mockAltSchema: FormValidationSchema<Flower> = {
+  ...(mockSchema as Joi.ObjectSchema),
+  name: Joi.string().min(5),
+};
 
 let container: HTMLDivElement | null;
 
