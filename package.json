@@ -1,10 +1,10 @@
 {
   "name": "formook",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Validation hook to deal with React forms",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/hupiat/Form-Hooks.git"
+    "url": "git+ssh://git@github.com/hupiat/formook.git"
   },
   "keywords": [
     "form",
@@ -19,9 +19,9 @@
   "author": "hupiat",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hupiat/Form-Hooks/issues"
+    "url": "https://github.com/hupiat/formook/issues"
   },
-  "homepage": "https://github.com/hupiat/Form-Hooks#readme",
+  "homepage": "https://github.com/hupiat/formook#readme",
   "types": "index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.es.js",

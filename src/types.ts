@@ -1,8 +1,6 @@
 import * as Yup from "yup";
 import Joi from "@hapi/joi";
 
-export type Environment = "test" | "default";
-
 export type HighLevelSchema = "yup" | "joi";
 
 export type JoiSchemaValues = Joi.Schema | Joi.Reference;

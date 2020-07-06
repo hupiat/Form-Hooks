@@ -1,4 +1,4 @@
-import { Environment } from "./types";
+type Environment = "test" | "default";
 
 let env: Environment = "default";
 
