@@ -10,9 +10,10 @@ import {
   JoiSchema,
   FormValidationOptions,
 } from "./types";
-import _ from "lodash";
 import Joi from "@hapi/joi";
 import { ErrorsKit } from "./errors";
+
+const cloneDeep = require("lodash.clonedeep");
 
 let ENABLED_HL_SCHEMA: HighLevelSchema = "yup";
 
@@ -36,7 +37,7 @@ export function useFormValidation<T extends object>(
 
   // Building differents schemas for high level ones and validation callbacks
   useEffect(() => {
-    const tmpSchema = _.cloneDeep(schema);
+    const tmpSchema = cloneDeep(schema);
     Object.keys(schema)
       .filter((key) => typeof schema[key] === "function")
       .forEach((key) => {

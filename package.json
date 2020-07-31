@@ -1,6 +1,6 @@
 {
   "name": "formook",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "description": "Validation hook to deal with React forms",
   "repository": {
     "type": "git",
@@ -39,12 +39,16 @@
   "peerDependencies": {
     "react": "^16.9.0"
   },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "lodash.clonedeep": "^4.5.0",
+    "yup": "^0.29.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/runtime": "^7.9.6",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/jest": "^23.3.13",
-    "@types/lodash": "^4.14.151",
     "@types/react": "^16.9.35",
     "@types/yup": "^0.26.37",
     "cross-env": "^5.2.0",
@@ -61,8 +65,6 @@
     "rollup-plugin-typescript2": "^0.27.1",
     "rollup-plugin-url": "^2.1.0",
     "typescript": "^3.9.2",
-    "yup": "^0.29.1",
-    "@hapi/joi": "^17.1.1",
     "@types/hapi__joi": "^17.1.1"
   }
 }

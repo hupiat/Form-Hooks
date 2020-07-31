@@ -1,7 +1,6 @@
 import { useFormValidation, switchHighLevelValidation } from "../validation";
 import { renderHook, RenderHookResult } from "@testing-library/react-hooks";
 import { FormValidation, FormValidationSchema } from "../types";
-import _ from "lodash";
 import { EnvironmentHandler } from "../environment";
 import { ErrorsKit } from "../errors";
 import Joi from "@hapi/joi";
@@ -73,7 +72,7 @@ it("should be able to validate without errors", async () => {
   switchHighLevelValidation("joi");
   rendered.rerender({
     schema: mockAltSchema,
-    object: _.cloneDeep(mockFlower),
+    object: JSON.parse(JSON.stringify(mockFlower)),
   });
   expectation(rendered);
 });
