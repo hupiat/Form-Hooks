@@ -1,6 +1,6 @@
 {
   "name": "formook",
-  "version": "1.9.0",
+  "version": "1.9.2",
   "description": "Validation hook to deal with React forms",
   "repository": {
     "type": "git",
