@@ -1,6 +1,6 @@
 {
   "name": "formook",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "description": "Validation hook to deal with React forms",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "url": "https://github.com/hupiat/formook/issues"
   },
   "homepage": "https://github.com/hupiat/formook#readme",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
