@@ -8,8 +8,7 @@ interface IErrorsKit {
 }
 
 // We need to use a wrapper function to deal with tests
-// since the render API cannot bubble the error during
-// the rendering process
+// since the hooks render API cannot bubble the error
 
 export const ErrorsKit = (): IErrorsKit => {
   const env = EnvironmentHandler().env;
