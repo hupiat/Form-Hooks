@@ -50,6 +50,10 @@ export function useFormValidation<T extends object>(
         ENABLED_HL_SCHEMA === "yup"
           ? Yup.object().shape(tmpSchema as YupSchema<T>)
           : Joi.object(tmpSchema as JoiSchema<T>);
+
+      if (ENABLED_HL_SCHEMA === "yup") {
+        highLevelSchema.current.validate({});
+      }
     } catch {
       ErrorsKit().throwError(`Schema type mismatch : ${ENABLED_HL_SCHEMA}`);
     }

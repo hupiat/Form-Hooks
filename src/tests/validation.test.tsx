@@ -119,7 +119,7 @@ describe("formook", () => {
     );
   });
 
-  it("should throw a type mismatch error for high level schema", async () => {
+  it("should throw a type mismatch error for joi high level schema", async () => {
     switchHighLevelValidation("joi");
     const rendered = renderHook(() =>
       useFormValidation(mockSchema, mockFlower)
@@ -127,5 +127,14 @@ describe("formook", () => {
     await rendered.waitForNextUpdate();
 
     expect(ErrorsKit().lastError).toBe("Schema type mismatch : joi");
+  });
+
+  it("should throw a type mismatch error for yup high level schema", async () => {
+    const rendered = renderHook(() =>
+      useFormValidation(mockAltSchema, mockFlower)
+    );
+    await rendered.waitForNextUpdate();
+
+    expect(ErrorsKit().lastError).toBe("Schema type mismatch : yup");
   });
 });
