@@ -92,6 +92,7 @@ describe("formook", () => {
   });
 
   it("should be blocked by joi", async () => {
+    switchHighLevelValidation("joi");
     const rendered = renderHook(() =>
       useFormValidation(mockAltSchema, {
         ...mockFlower,
@@ -116,6 +117,23 @@ describe("formook", () => {
     expect(rendered.result.current.canValidate).toBeFalsy();
     expect(rendered.result.current.errors.petals).toBe(
       MOCK_SCHEMA_PETALS_ERROR
+    );
+  });
+
+  it("should throw an error for null return type", async () => {
+    const rendered = renderHook(() =>
+      useFormValidation(
+        {
+          ...mockSchema,
+          name: () => null,
+        },
+        mockFlower
+      )
+    );
+    await rendered.waitForNextUpdate();
+
+    expect(ErrorsKit().lastError).toBe(
+      "Return type for name should be a string or a boolean and is null"
     );
   });
 

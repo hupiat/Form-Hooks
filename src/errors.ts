@@ -1,6 +1,6 @@
 import { EnvironmentHandler } from "./environment";
 
-let lastError: string | undefined = undefined;
+let lastError: string | undefined;
 
 interface IErrorsKit {
   throwError: (error: string) => void;

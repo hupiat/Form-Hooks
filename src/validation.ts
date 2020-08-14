@@ -22,6 +22,9 @@ const DEBOUNCE_DELAY_MS: number = 350;
 const FUNC_FAILED_DEFAULT = (label: string) =>
   `Validation function for ${label} failed`;
 
+const FUNC_FAILED_RETURN_TYPE = (label: string, type: string) =>
+  `Return type for ${label} should be a string or a boolean and is ${type}`;
+
 export const switchHighLevelValidation = (schemaType: HighLevelSchema) =>
   (ENABLED_HL_SCHEMA = schemaType);
 
@@ -65,8 +68,15 @@ export function useFormValidation<T extends object>(
 
     Object.keys(callbacksSchema.current).forEach((key) => {
       const res = callbacksSchema.current[key](object);
-      if (typeof res === "string" || (typeof res === "boolean" && !res)) {
-        errors[key] = typeof res === "string" ? res : FUNC_FAILED_DEFAULT(key);
+      if (typeof res === "string" || typeof res === "boolean") {
+        if (typeof res === "string" || !res) {
+          errors[key] =
+            typeof res === "string" ? res : FUNC_FAILED_DEFAULT(key);
+        }
+      } else {
+        ErrorsKit().throwError(
+          FUNC_FAILED_RETURN_TYPE(key, res === null ? "null" : typeof res)
+        );
       }
     });
 
