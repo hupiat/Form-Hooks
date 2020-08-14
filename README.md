@@ -13,7 +13,7 @@ The validation trigger is debounced to optimize performances
 Validation schemas are made using a mix of :
 
 - Yup (https://github.com/jquense/yup)
-- Joi (https://hapi.dev/module/joi/)
+- Joi (https://hapi.dev/tutorials/validation/)
 - Boolean validation functions, which can return strings as the error messages (meaning the validation result is assumed false). They are not present in joi, and unlike yup, they take the complete object in parameter
 
 **The validation will be triggered only when the object is updated**
